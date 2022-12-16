@@ -39,14 +39,16 @@ for l in lines:
     if l[0:16] in  'XDG_DOWNLOAD_DIR':
         download_path = home + l.split('"')[1][5:]
 
+
+file_types = {
+    music_fileendings: music_path,
+    picture_fileendings: pictures_path,
+    video_fileendings: videos_path,
+    document_fileendings: documents_path
+}
+
 for file in os.listdir(download_path):
-    if file.endswith(music_fileendings):
-        shutil.move(download_path +"/"+ file,music_path +"/"+ file)
-    elif file.endswith(picture_fileendings):
-        shutil.move(download_path +"/"+ file,pictures_path +"/"+ file)
-    elif file.endswith(video_fileendings):
-        shutil.move(download_path +"/"+ file,videos_path +"/"+ file)
-    elif file.endswith(document_fileendings):
-        shutil.move(download_path +"/"+ file,documents_path +"/"+ file)
-    else:
-        pass #do nothing
+    for endings, path in file_types.items():
+        if file.endswith(endings):
+            shutil.move(download_path + "/" + file, path + "/" + file)
+            break
